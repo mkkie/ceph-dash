@@ -425,11 +425,16 @@ $(function () {
             $("#monitor_status").empty();
             $.each(monmapMons, function(index, mon) {
                 health = 'HEALTH_ERR'
-                $.each(timechekMons, function(index, mon_health) {
-                    if (mon['name'] == mon_health['name']) {
-                        health = mon_health['health'];
-                    }
-                });
+                if(monmapMons.length == 1) {
+                    health = 'HEALTH_OK'
+                }
+                else {
+                    $.each(timechekMons, function(index, mon_health) {
+                        if (mon['name'] == mon_health['name']) {
+                            health = mon_health['health'];
+                        }
+                    });
+                }
                 msg = 'Monitor ' + mon['name'].toUpperCase() + ': ' + health;
                 $("#monitor_status").append('<div class="col-md-4">' + message(ceph2bootstrap[health], msg) + '</div>');
             });
